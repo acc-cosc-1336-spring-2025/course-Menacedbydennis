@@ -3,7 +3,6 @@ import unittest
 the file in /tests/homework/b_in_proc_out/tests_in_proc_out
 has the test functions
 '''
-from tests.homework.b_in_proc_out import tests_in_proc_out
+from tests.homework.c_decisions import test_decisions
 
-suite = unittest.TestLoader().loadTestsFromModule(tests_in_proc_out)
-unittest.TextTestRunner(verbosity=2).run(suite)
+suite = unittest.TestLoader().loadTestsFromModule(test_decisions)

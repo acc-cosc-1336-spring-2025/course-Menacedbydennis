@@ -1,37 +1,51 @@
+import sys
+import os
 import unittest
-from src.homework.i_dictionaries_sets.dictionary import add_inventory, remove_inventory_widget
 
-class TestInventoryFunctions(unittest.TestCase):
+# Add src directory to the system path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src')))
 
-    def test_add_inventory(self):
-        widgets = {}
+# Import functions
+from src.homework.i_dictionaries_sets.dictionary import get_p_distance, get_p_distance_matrix
 
-        # Add a new widget
-        add_inventory(widgets, "Widget1", 10)
-        self.assertEqual(widgets["Widget1"], 10)
+class TestPDistanceFunctions(unittest.TestCase):
+    
+    def test_p_distance(self):
+        """Test that the get_p_distance function works correctly."""
+        # Given input lists
+        list1 = ['T', 'T', 'T', 'C', 'C', 'A', 'T', 'T', 'T', 'A']
+        list2 = ['G', 'A', 'T', 'T', 'C', 'A', 'T', 'T', 'T', 'C']
+        
+        expected = 0.4
+        result = get_p_distance(list1, list2)
+        
+        self.assertAlmostEqual(result, expected, delta=0.001, 
+                               msg=f"Expected {expected}, but got {result}")
 
-        # Update the quantity of existing widget
-        add_inventory(widgets, "Widget1", 25)
-        self.assertEqual(widgets["Widget1"], 35)
-
-        # Reduce the quantity of existing widget
-        add_inventory(widgets, "Widget1", -10)
-        self.assertEqual(widgets["Widget1"], 25)
-
-    def test_remove_inventory_widget(self):
-        widgets = {"Widget1": 15, "Widget2": 30}
-
-        # Remove an existing widget
-        result = remove_inventory_widget(widgets, "Widget1")
-        self.assertEqual(result, "Record deleted")
-        self.assertNotIn("Widget1", widgets)
-
-        # Ensure Widget2 is still there
-        self.assertIn("Widget2", widgets)
-
-        # Try to remove a non-existent widget
-        result = remove_inventory_widget(widgets, "Widget3")
-        self.assertEqual(result, "Item not found")
+    def test_get_p_distance_matrix(self):
+        """Test that the get_p_distance_matrix function works correctly."""
+       
+        list_of_lists = [
+            ['T', 'T', 'T', 'C', 'C', 'A', 'T', 'T', 'T', 'A'],
+            ['G', 'A', 'T', 'T', 'C', 'A', 'T', 'T', 'T', 'C'],
+            ['T', 'T', 'T', 'C', 'C', 'A', 'T', 'T', 'T', 'T'],
+            ['G', 'T', 'T', 'C', 'C', 'A', 'T', 'T', 'T', 'A']
+        ]
+        
+        expected_matrix = [
+            [0.0, 0.4, 0.1, 0.1],
+            [0.4, 0.0, 0.4, 0.3],
+            [0.1, 0.4, 0.0, 0.2],
+            [0.1, 0.3, 0.2, 0.0]
+        ]
+        
+        result_matrix = get_p_distance_matrix(list_of_lists)  # FIXED INDENTATION
+        
+        for i in range(len(result_matrix)):
+            for j in range(len(result_matrix[i])):
+                self.assertAlmostEqual(result_matrix[i][j], expected_matrix[i][j], 
+                                       delta=0.001, 
+                                       msg=f"Expected {expected_matrix[i][j]} at ({i}, {j}), but got {result_matrix[i][j]}")
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,33 +1,28 @@
-from dictionary import add_inventory, remove_inventory_widget
+from dictionary import get_p_distance_matrix
 
 def main():
-    widgets = {}
+    dna_list = [
+        ['T','T','T','C','C','A','T','T','T','A'],
+        ['G','A','T','T','C','A','T','T','T','C'],
+        ['T','T','T','C','C','A','T','T','T','T'],
+        ['G','T','T','C','C','A','T','T','T','A']
+    ]
 
     while True:
-        print("\nInventory Menu")
-        print("1- Add or Update Item")
-        print("2- Delete Item")
-        print("3- Exit")
-        
-        choice = input("Choose an option: ")
+        print("\nMenu:")
+        print("1 - Get p-distance matrix")
+        print("2 - Exit")
+        choice = input("Enter your choice: ")
 
         if choice == "1":
-            widget_name = input("Enter widget name: ")
-            quantity = int(input("Enter quantity: "))
-            add_inventory(widgets, widget_name, quantity)
-            print(f"Updated Inventory: {widgets}")
-
+            matrix = get_p_distance_matrix(dna_list)
+            for row in matrix:
+                print(" ".join(f"{num:.5f}" for num in row))
         elif choice == "2":
-            widget_name = input("Enter widget name to delete: ")
-            result = remove_inventory_widget(widgets, widget_name)
-            print(result)
-        
-        elif choice == "3":
             print("Exiting program.")
             break
-
         else:
-            print("Invalid choice. Try again.")
+            print("Invalid choice. Please enter 1 or 2.")
 
 if __name__ == "__main__":
     main()
